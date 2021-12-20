@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using NaughtyAttributes;
 using DG.Tweening;
 
@@ -10,15 +11,22 @@ namespace Screens
     {
         Panel,
         Info_panel,
+        Inventory_Panel,
+        Messages,
+        Ranking,
+        Missions,
+        Settings,
+        Facebook,
         Shop
     }
     public class ScreenBase : MonoBehaviour
     {
-        public ScreenType ScreenType;
+        public ScreenType screenType;
 
         public List<Transform> listOfObjects;
         public List<Typper> listOfPhases;
 
+        public Image uiBackground;
         public bool startHided = false;
 
         [Header("Animation")]
@@ -35,13 +43,13 @@ namespace Screens
         }
 
         [Button]
-        protected virtual void Show()
+        public virtual void Show()
         {
             ShowObjects();
         }
 
         [Button]
-        protected virtual void Hide()
+        public virtual void Hide()
         {
             HideObjects();
         }
@@ -50,6 +58,7 @@ namespace Screens
         private void HideObjects()
         {
             listOfObjects.ForEach(i => i.gameObject.SetActive(false));
+            uiBackground.enabled = false;
         }
 
         private void ShowObjects()
@@ -63,6 +72,7 @@ namespace Screens
             }
 
             Invoke(nameof(StartType), delayBetweenObjects * listOfObjects.Count);
+            uiBackground.enabled = true;
         }
 
         private void StartType()
@@ -76,6 +86,7 @@ namespace Screens
         private void ForceShowObjects()
         {
             listOfObjects.ForEach(i => i.gameObject.SetActive(true));
+            uiBackground.enabled = false;
         }
     }
 
